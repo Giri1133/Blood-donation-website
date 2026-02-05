@@ -1,8 +1,8 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,29 +10,80 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, CheckCircle } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useDataStore } from "@/lib/data-store"
 
 export function DonorRegistrationForm() {
+  const router = useRouter()
+  const { addDonor } = useDataStore()
   const [date, setDate] = useState<Date>()
   const [lastDonationDate, setLastDonationDate] = useState<Date>()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [bloodType, setBloodType] = useState("")
+  const [gender, setGender] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    const formData = new FormData(e.currentTarget)
+    
+    const donor = {
+      name: formData.get("fullName") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      bloodType: bloodType,
+      city: formData.get("city") as string,
+      state: formData.get("state") as string,
+      pincode: formData.get("pincode") as string,
+      address: formData.get("address") as string,
+      dateOfBirth: date ? format(date, "yyyy-MM-dd") : "",
+      gender: gender,
+      weight: Number(formData.get("weight")),
+      lastDonation: lastDonationDate ? format(lastDonationDate, "yyyy-MM-dd") : null,
+      available: formData.get("available") === "on",
+      medicalConditions: formData.get("medicalConditions") as string || "",
+    }
 
-    // TODO: Implement actual registration logic with database
-    console.log("[v0] Donor registration form submitted")
+    // Add to data store
+    addDonor(donor)
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     setIsSubmitting(false)
-    alert("Registration successful! You can now log in to your account.")
+    setIsSuccess(true)
+
+    setTimeout(() => {
+      router.push("/donors")
+    }, 2000)
+  }
+
+  if (isSuccess) {
+    return (
+      <Card>
+        <CardContent className="py-16">
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <div className="flex size-16 items-center justify-center rounded-full bg-green-100">
+                <CheckCircle className="size-8 text-green-600" />
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold">Registration Successful!</h2>
+            <p className="text-muted-foreground">
+              Thank you for registering as a blood donor. You can now be found by those in need.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Redirecting to donors page...
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
@@ -52,14 +103,14 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="fullName">
                   Full Name <span className="text-destructive">*</span>
                 </Label>
-                <Input id="fullName" placeholder="John Doe" required />
+                <Input id="fullName" name="fullName" placeholder="Rahul Sharma" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="email">
                   Email <span className="text-destructive">*</span>
                 </Label>
-                <Input id="email" type="email" placeholder="john@example.com" required />
+                <Input id="email" name="email" type="email" placeholder="rahul@example.com" required />
               </div>
             </div>
 
@@ -68,7 +119,7 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="phone">
                   Phone Number <span className="text-destructive">*</span>
                 </Label>
-                <Input id="phone" type="tel" placeholder="+91 98765 43210" required />
+                <Input id="phone" name="phone" type="tel" placeholder="+91 98765 43210" required />
               </div>
 
               <div className="space-y-2">
@@ -78,8 +129,9 @@ export function DonorRegistrationForm() {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
+                      type="button"
                       variant="outline"
-                      className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                      className={cn("w-full justify-start text-left font-normal bg-transparent", !date && "text-muted-foreground")}
                     >
                       <CalendarIcon className="mr-2 size-4" />
                       {date ? format(date, "PPP") : "Pick a date"}
@@ -97,7 +149,7 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="gender">
                   Gender <span className="text-destructive">*</span>
                 </Label>
-                <Select required>
+                <Select value={gender} onValueChange={setGender} required>
                   <SelectTrigger id="gender">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
@@ -113,7 +165,7 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="weight">
                   Weight (kg) <span className="text-destructive">*</span>
                 </Label>
-                <Input id="weight" type="number" placeholder="70" min="40" required />
+                <Input id="weight" name="weight" type="number" placeholder="70" min="40" required />
               </div>
             </div>
 
@@ -122,14 +174,14 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="password">
                   Password <span className="text-destructive">*</span>
                 </Label>
-                <Input id="password" type="password" placeholder="••••••••" required minLength={8} />
+                <Input id="password" name="password" type="password" placeholder="••••••••" required minLength={8} />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">
                   Confirm Password <span className="text-destructive">*</span>
                 </Label>
-                <Input id="confirmPassword" type="password" placeholder="••••••••" required minLength={8} />
+                <Input id="confirmPassword" name="confirmPassword" type="password" placeholder="••••••••" required minLength={8} />
               </div>
             </div>
           </div>
@@ -143,7 +195,7 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="bloodType">
                   Blood Type <span className="text-destructive">*</span>
                 </Label>
-                <Select required>
+                <Select value={bloodType} onValueChange={setBloodType} required>
                   <SelectTrigger id="bloodType">
                     <SelectValue placeholder="Select blood type" />
                   </SelectTrigger>
@@ -165,9 +217,10 @@ export function DonorRegistrationForm() {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
+                      type="button"
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal",
+                        "w-full justify-start text-left font-normal bg-transparent",
                         !lastDonationDate && "text-muted-foreground",
                       )}
                     >
@@ -186,6 +239,7 @@ export function DonorRegistrationForm() {
               <Label htmlFor="medicalConditions">Medical Conditions</Label>
               <Textarea
                 id="medicalConditions"
+                name="medicalConditions"
                 placeholder="List any medical conditions, medications, or allergies (optional)"
                 rows={3}
               />
@@ -200,7 +254,7 @@ export function DonorRegistrationForm() {
               <Label htmlFor="address">
                 Street Address <span className="text-destructive">*</span>
               </Label>
-              <Input id="address" placeholder="123 Main St" required />
+              <Input id="address" name="address" placeholder="123 Main St" required />
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
@@ -208,21 +262,21 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="city">
                   City <span className="text-destructive">*</span>
                 </Label>
-                <Input id="city" placeholder="Mumbai" required />
+                <Input id="city" name="city" placeholder="Mumbai" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state">
                   State <span className="text-destructive">*</span>
                 </Label>
-                <Input id="state" placeholder="Maharashtra" required />
+                <Input id="state" name="state" placeholder="Maharashtra" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="pincode">
                   Pincode <span className="text-destructive">*</span>
                 </Label>
-                <Input id="pincode" placeholder="400001" required />
+                <Input id="pincode" name="pincode" placeholder="400001" required />
               </div>
             </div>
           </div>
@@ -230,7 +284,7 @@ export function DonorRegistrationForm() {
           {/* Availability */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Checkbox id="available" defaultChecked />
+              <Checkbox id="available" name="available" defaultChecked />
               <Label htmlFor="available" className="text-sm font-normal cursor-pointer">
                 I am currently available to donate blood
               </Label>

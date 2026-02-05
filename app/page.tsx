@@ -1,3 +1,5 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -5,8 +7,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Search, AlertCircle, Heart, Users, Building2, Clock, Shield } from "lucide-react"
 import Link from "next/link"
+import { useDataStore } from "@/lib/data-store"
 
 export default function Home() {
+  const { donors, bloodBanks, emergencyRequests } = useDataStore()
+  
+  const activeEmergencies = emergencyRequests.filter(r => r.status === "active").slice(0, 3)
+  const totalDonors = donors.length
+  const totalBloodBanks = bloodBanks.length
+  const livesServed = donors.length * 3 // Estimate
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -41,19 +51,19 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-4">
                   <Card className="border-primary/20">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-3xl font-bold text-primary">5,000+</CardTitle>
+                      <CardTitle className="text-3xl font-bold text-primary">{totalDonors}+</CardTitle>
                       <CardDescription>Active Donors</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card className="border-primary/20">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-3xl font-bold text-primary">12,500+</CardTitle>
-                      <CardDescription>Lives Saved</CardDescription>
+                      <CardTitle className="text-3xl font-bold text-primary">{livesServed}+</CardTitle>
+                      <CardDescription>Lives Served</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card className="border-primary/20">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-3xl font-bold text-primary">200+</CardTitle>
+                      <CardTitle className="text-3xl font-bold text-primary">{totalBloodBanks}+</CardTitle>
                       <CardDescription>Blood Banks</CardDescription>
                     </CardHeader>
                   </Card>
@@ -158,86 +168,72 @@ export default function Home() {
         {/* Emergency Requests Preview */}
         <section className="py-20 md:py-32 bg-muted/50">
           <div className="container">
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Active Emergency Requests</h2>
                 <p className="text-muted-foreground">Help someone in urgent need of blood</p>
               </div>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="bg-transparent w-fit">
                 <Link href="/emergency">View All</Link>
               </Button>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  bloodType: "O+",
-                  units: 2,
-                  hospital: "City General Hospital",
-                  location: "New York, NY",
-                  urgency: "critical",
-                  time: "2 hours ago",
-                },
-                {
-                  bloodType: "A-",
-                  units: 1,
-                  hospital: "St. Mary's Medical Center",
-                  location: "Los Angeles, CA",
-                  urgency: "urgent",
-                  time: "5 hours ago",
-                },
-                {
-                  bloodType: "B+",
-                  units: 3,
-                  hospital: "Community Hospital",
-                  location: "Chicago, IL",
-                  urgency: "moderate",
-                  time: "1 day ago",
-                },
-              ].map((request, i) => (
-                <Card key={i} className="relative overflow-hidden">
-                  {request.urgency === "critical" && (
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-destructive" />
-                  )}
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-lg">
-                          {request.bloodType}
-                        </div>
-                        <div>
-                          <CardTitle className="text-base">{request.hospital}</CardTitle>
-                          <CardDescription className="text-sm">{request.location}</CardDescription>
+            {activeEmergencies.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {activeEmergencies.map((request) => (
+                  <Card key={request.id} className="relative overflow-hidden">
+                    {request.urgency === "critical" && (
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-destructive" />
+                    )}
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-lg">
+                            {request.bloodType}
+                          </div>
+                          <div>
+                            <CardTitle className="text-base">{request.hospital}</CardTitle>
+                            <CardDescription className="text-sm">{request.city}, {request.state}</CardDescription>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Units Needed:</span>
-                      <span className="font-semibold">{request.units}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <Badge
-                        variant={
-                          request.urgency === "critical"
-                            ? "destructive"
-                            : request.urgency === "urgent"
-                              ? "default"
-                              : "secondary"
-                        }
-                      >
-                        {request.urgency.charAt(0).toUpperCase() + request.urgency.slice(1)}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground">{request.time}</span>
-                    </div>
-                    <Button asChild className="w-full">
-                      <Link href="/emergency">Respond to Request</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Units Needed:</span>
+                        <span className="font-semibold">{request.units}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Badge
+                          variant={
+                            request.urgency === "critical"
+                              ? "destructive"
+                              : request.urgency === "urgent"
+                                ? "default"
+                                : "secondary"
+                          }
+                        >
+                          {request.urgency.charAt(0).toUpperCase() + request.urgency.slice(1)}
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">{request.postedTime}</span>
+                      </div>
+                      <Button asChild className="w-full">
+                        <Link href="/emergency">Respond to Request</Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <Card>
+                <CardContent className="py-12 text-center">
+                  <p className="text-muted-foreground">No active emergency requests at the moment.</p>
+                  <Button asChild className="mt-4">
+                    <Link href="/emergency/new">Post an Emergency Request</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </section>
 
@@ -268,7 +264,7 @@ export default function Home() {
                     variant="outline"
                     className="text-base bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10"
                   >
-                    <Link href="/about">Learn More</Link>
+                    <Link href="/donors">Find Donors</Link>
                   </Button>
                 </div>
               </CardHeader>
