@@ -51,7 +51,7 @@ export function BloodBankRegistrationForm() {
                 <Label htmlFor="licenseNumber">
                   License Number <span className="text-destructive">*</span>
                 </Label>
-                <Input id="licenseNumber" placeholder="BB-NY-001" required />
+                <Input id="licenseNumber" placeholder="BB-MH-001" required />
               </div>
 
               <div className="space-y-2">
@@ -67,7 +67,7 @@ export function BloodBankRegistrationForm() {
                 <Label htmlFor="phone">
                   Contact Number <span className="text-destructive">*</span>
                 </Label>
-                <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" required />
+                <Input id="phone" type="tel" placeholder="+91 22 2417 7000" required />
               </div>
 
               <div className="space-y-2">
@@ -111,21 +111,21 @@ export function BloodBankRegistrationForm() {
                 <Label htmlFor="city">
                   City <span className="text-destructive">*</span>
                 </Label>
-                <Input id="city" placeholder="New York" required />
+                <Input id="city" placeholder="Mumbai" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state">
                   State <span className="text-destructive">*</span>
                 </Label>
-                <Input id="state" placeholder="NY" required />
+                <Input id="state" placeholder="Maharashtra" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="pincode">
                   Pincode <span className="text-destructive">*</span>
                 </Label>
-                <Input id="pincode" placeholder="10001" required />
+                <Input id="pincode" placeholder="400012" required />
               </div>
             </div>
           </div>

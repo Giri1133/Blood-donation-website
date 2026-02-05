@@ -7,9 +7,9 @@ export function BloodBankList() {
   const bloodBanks = [
     {
       id: "1",
-      name: "Central Blood Bank",
-      address: "123 Main Street, New York, NY 10001",
-      phone: "+1 (234) 567-8901",
+      name: "AIIMS Blood Bank",
+      address: "Ansari Nagar East, New Delhi, Delhi 110029",
+      phone: "+91 11 2658 8500",
       hours: "24/7",
       verified: true,
       inventory: [
@@ -25,10 +25,10 @@ export function BloodBankList() {
     },
     {
       id: "2",
-      name: "City Blood Bank",
-      address: "456 Park Avenue, Los Angeles, CA 90001",
-      phone: "+1 (234) 567-8902",
-      hours: "Mon-Fri 9AM-6PM",
+      name: "Tata Memorial Blood Bank",
+      address: "Dr. E Borges Road, Parel, Mumbai, Maharashtra 400012",
+      phone: "+91 22 2417 7000",
+      hours: "Mon-Sat 8AM-8PM",
       verified: true,
       inventory: [
         { type: "A+", units: 32 },
@@ -43,9 +43,9 @@ export function BloodBankList() {
     },
     {
       id: "3",
-      name: "Community Blood Center",
-      address: "789 Oak Street, Chicago, IL 60601",
-      phone: "+1 (234) 567-8903",
+      name: "CMC Blood Bank",
+      address: "Ida Scudder Road, Vellore, Tamil Nadu 632004",
+      phone: "+91 416 228 1000",
       hours: "24/7",
       verified: true,
       inventory: [

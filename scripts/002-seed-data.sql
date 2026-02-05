@@ -11,8 +11,8 @@ VALUES
 
 INSERT INTO blood_banks (user_id, name, address, city, state, pincode, phone, email, license_number, operating_hours, is_verified)
 VALUES 
-  ('00000000-0000-0000-0000-000000000002', 'Central Blood Bank', '123 Main Street', 'New York', 'NY', '10001', '+1234567891', 'central@bloodbank.com', 'BB-NY-001', '24/7', true),
-  ('00000000-0000-0000-0000-000000000003', 'City Blood Bank', '456 Park Avenue', 'Los Angeles', 'CA', '90001', '+1234567892', 'city@bloodbank.com', 'BB-CA-001', 'Mon-Fri 9AM-6PM', true);
+  ('00000000-0000-0000-0000-000000000002', 'AIIMS Blood Bank', 'Ansari Nagar East', 'New Delhi', 'Delhi', '110029', '+911126588500', 'aiims@bloodbank.com', 'BB-DL-001', '24/7', true),
+  ('00000000-0000-0000-0000-000000000003', 'Tata Memorial Blood Bank', 'Dr. E Borges Road, Parel', 'Mumbai', 'Maharashtra', '400012', '+912224177000', 'tata@bloodbank.com', 'BB-MH-001', 'Mon-Sat 8AM-8PM', true);
 
 -- Insert sample blood inventory
 INSERT INTO blood_inventory (blood_bank_id, blood_type, units_available)

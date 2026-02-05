@@ -67,7 +67,7 @@ export function RecipientRegistrationForm() {
                 <Label htmlFor="phone">
                   Phone Number <span className="text-destructive">*</span>
                 </Label>
-                <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" required />
+                <Input id="phone" type="tel" placeholder="+91 98765 43210" required />
               </div>
 
               <div className="space-y-2">
@@ -178,21 +178,21 @@ export function RecipientRegistrationForm() {
                 <Label htmlFor="city">
                   City <span className="text-destructive">*</span>
                 </Label>
-                <Input id="city" placeholder="New York" required />
+                <Input id="city" placeholder="Mumbai" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state">
                   State <span className="text-destructive">*</span>
                 </Label>
-                <Input id="state" placeholder="NY" required />
+                <Input id="state" placeholder="Maharashtra" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="pincode">
                   Pincode <span className="text-destructive">*</span>
                 </Label>
-                <Input id="pincode" placeholder="10001" required />
+                <Input id="pincode" placeholder="400001" required />
               </div>
             </div>
           </div>

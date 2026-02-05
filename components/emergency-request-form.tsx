@@ -152,14 +152,14 @@ export function EmergencyRequestForm() {
                 <Label htmlFor="city">
                   City <span className="text-destructive">*</span>
                 </Label>
-                <Input id="city" placeholder="New York" required />
+                <Input id="city" placeholder="Mumbai" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state">
                   State <span className="text-destructive">*</span>
                 </Label>
-                <Input id="state" placeholder="NY" required />
+                <Input id="state" placeholder="Maharashtra" required />
               </div>
             </div>
           </div>
@@ -180,7 +180,7 @@ export function EmergencyRequestForm() {
                 <Label htmlFor="contactPhone">
                   Contact Phone <span className="text-destructive">*</span>
                 </Label>
-                <Input id="contactPhone" type="tel" placeholder="+1 (555) 123-4567" required />
+                <Input id="contactPhone" type="tel" placeholder="+91 98765 43210" required />
               </div>
             </div>
           </div>
