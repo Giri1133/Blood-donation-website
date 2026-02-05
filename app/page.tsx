@@ -5,17 +5,20 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Search, AlertCircle, Heart, Users, Building2, Clock, Shield } from "lucide-react"
+import { 
+  Search, AlertCircle, Heart, Users, Building2, Clock, Shield, 
+  Calendar, BookOpen, Quote, ArrowRight, Phone, MapPin
+} from "lucide-react"
 import Link from "next/link"
 import { useDataStore } from "@/lib/data-store"
 
 export default function Home() {
-  const { donors, bloodBanks, emergencyRequests } = useDataStore()
+  const { donors, bloodBanks, emergencyRequests, donorStories } = useDataStore()
   
   const activeEmergencies = emergencyRequests.filter(r => r.status === "active").slice(0, 3)
   const totalDonors = donors.length
   const totalBloodBanks = bloodBanks.length
-  const livesServed = donors.length * 3 // Estimate
+  const livesServed = donors.length * 3
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -28,22 +31,28 @@ export default function Home() {
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="space-y-6">
                 <Badge variant="outline" className="w-fit border-primary text-primary">
-                  Save Lives Today
+                  Serving Chennai Since 2020
                 </Badge>
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-balance">
-                  Every Drop Counts, Every Donor Matters
+                  Namma Chennai, Namma Blood Bank
                 </h1>
                 <p className="text-lg text-muted-foreground text-pretty">
-                  Join our community of life-savers. Connect with donors, find blood banks, and respond to emergency
-                  requests in real-time.
+                  Join over 5,000 donors across Chennai who are making a difference every day. From T. Nagar to Tambaram, Adyar to Anna Nagar our community ensures no patient goes without the blood they need.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button asChild size="lg" className="text-base">
                     <Link href="/register/donor">Become a Donor</Link>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="text-base bg-transparent">
-                    <Link href="/emergency">Request Blood</Link>
+                    <Link href="/emergency">
+                      <Phone className="mr-2 size-4" />
+                      Need Blood Urgently?
+                    </Link>
                   </Button>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <MapPin className="size-4 text-primary" />
+                  <span>Emergency Helpline: +91 44 2829 1000 (24/7)</span>
                 </div>
               </div>
 
@@ -52,25 +61,25 @@ export default function Home() {
                   <Card className="border-primary/20">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-primary">{totalDonors}+</CardTitle>
-                      <CardDescription>Active Donors</CardDescription>
+                      <CardDescription>Active Donors in Chennai</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card className="border-primary/20">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-primary">{livesServed}+</CardTitle>
-                      <CardDescription>Lives Served</CardDescription>
+                      <CardDescription>Lives Saved</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card className="border-primary/20">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-3xl font-bold text-primary">{totalBloodBanks}+</CardTitle>
-                      <CardDescription>Blood Banks</CardDescription>
+                      <CardTitle className="text-3xl font-bold text-primary">{totalBloodBanks}</CardTitle>
+                      <CardDescription>Partner Blood Banks</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card className="border-primary/20">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-primary">24/7</CardTitle>
-                      <CardDescription>Support</CardDescription>
+                      <CardDescription>Emergency Support</CardDescription>
                     </CardHeader>
                   </Card>
                 </div>
@@ -83,9 +92,9 @@ export default function Home() {
         <section className="py-20 md:py-32">
           <div className="container">
             <div className="text-center space-y-4 mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">How BloodLink Works</h2>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">How BloodLink Chennai Works</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Our platform makes blood donation simple, efficient, and accessible for everyone.
+                Our platform connects donors, recipients, and blood banks across Chennai efficiently and compassionately.
               </p>
             </div>
 
@@ -97,7 +106,7 @@ export default function Home() {
                   </div>
                   <CardTitle>Register as Donor</CardTitle>
                   <CardDescription>
-                    Create your profile with blood type, location, and availability information.
+                    Create your profile with blood type, your Chennai locality, and availability. Get notified when someone nearby needs your blood type.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -107,9 +116,9 @@ export default function Home() {
                   <div className="flex size-12 items-center justify-center rounded-lg bg-accent/10 mb-4">
                     <Search className="size-6 text-accent" />
                   </div>
-                  <CardTitle>Find Matches</CardTitle>
+                  <CardTitle>Find Blood Instantly</CardTitle>
                   <CardDescription>
-                    Search for donors by blood type and location. View real-time availability.
+                    Search our database of verified donors across Chennai. Filter by blood type, area, and availability for quick matches.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -119,9 +128,9 @@ export default function Home() {
                   <div className="flex size-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
                     <AlertCircle className="size-6 text-primary" />
                   </div>
-                  <CardTitle>Emergency Requests</CardTitle>
+                  <CardTitle>Emergency Alerts</CardTitle>
                   <CardDescription>
-                    Post urgent blood requirements and get instant notifications to nearby donors.
+                    Post urgent requirements and our system notifies nearby donors immediately. Critical requests are prioritized for faster response.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -131,9 +140,9 @@ export default function Home() {
                   <div className="flex size-12 items-center justify-center rounded-lg bg-accent/10 mb-4">
                     <Building2 className="size-6 text-accent" />
                   </div>
-                  <CardTitle>Blood Bank Network</CardTitle>
+                  <CardTitle>Real-Time Stock Updates</CardTitle>
                   <CardDescription>
-                    Access our network of verified blood banks with real-time inventory updates.
+                    Check blood availability at Apollo, SRMC, GGH, Vijaya, and other major Chennai blood banks with live inventory data.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -141,11 +150,11 @@ export default function Home() {
               <Card>
                 <CardHeader>
                   <div className="flex size-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
-                    <Clock className="size-6 text-primary" />
+                    <Calendar className="size-6 text-primary" />
                   </div>
-                  <CardTitle>Track Donations</CardTitle>
+                  <CardTitle>Schedule Donations</CardTitle>
                   <CardDescription>
-                    Keep a complete history of your donations and upcoming eligibility dates.
+                    Book your donation appointment at a convenient blood bank near you. We will remind you when you are eligible to donate again.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -155,9 +164,9 @@ export default function Home() {
                   <div className="flex size-12 items-center justify-center rounded-lg bg-accent/10 mb-4">
                     <Shield className="size-6 text-accent" />
                   </div>
-                  <CardTitle>Secure & Private</CardTitle>
+                  <CardTitle>Verified & Secure</CardTitle>
                   <CardDescription>
-                    Your personal information is protected with industry-standard security measures.
+                    All blood banks are verified by Tamil Nadu State Blood Transfusion Council. Your personal data is protected.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -171,10 +180,10 @@ export default function Home() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Active Emergency Requests</h2>
-                <p className="text-muted-foreground">Help someone in urgent need of blood</p>
+                <p className="text-muted-foreground">Help someone in Chennai who urgently needs blood today</p>
               </div>
               <Button asChild variant="outline" className="bg-transparent w-fit">
-                <Link href="/emergency">View All</Link>
+                <Link href="/emergency">View All Requests</Link>
               </Button>
             </div>
 
@@ -193,12 +202,13 @@ export default function Home() {
                           </div>
                           <div>
                             <CardTitle className="text-base">{request.hospital}</CardTitle>
-                            <CardDescription className="text-sm">{request.city}, {request.state}</CardDescription>
+                            <CardDescription className="text-sm">{request.address}, {request.city}</CardDescription>
                           </div>
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
+                      <p className="text-sm text-muted-foreground">{request.reason}</p>
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-muted-foreground">Units Needed:</span>
                         <span className="font-semibold">{request.units}</span>
@@ -218,7 +228,10 @@ export default function Home() {
                         <span className="text-xs text-muted-foreground">{request.postedTime}</span>
                       </div>
                       <Button asChild className="w-full">
-                        <Link href="/emergency">Respond to Request</Link>
+                        <Link href="/emergency">
+                          Respond to Request
+                          <ArrowRight className="ml-2 size-4" />
+                        </Link>
                       </Button>
                     </CardContent>
                   </Card>
@@ -237,6 +250,124 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Donor Stories Section */}
+        <section className="py-20 md:py-32">
+          <div className="container">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Stories from Chennai Donors</h2>
+                <p className="text-muted-foreground">Real people, real impact in our city</p>
+              </div>
+              <Button asChild variant="outline" className="bg-transparent w-fit">
+                <Link href="/stories">Read More Stories</Link>
+              </Button>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {donorStories.slice(0, 2).map((story) => (
+                <Card key={story.id} className="overflow-hidden">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="flex size-16 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                        <span className="text-2xl font-bold text-primary">{story.name.charAt(0)}</span>
+                      </div>
+                      <div className="space-y-3">
+                        <div>
+                          <h3 className="font-semibold text-lg">{story.name}</h3>
+                          <p className="text-sm text-muted-foreground">{story.location}</p>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm">
+                          <Badge variant="outline" className="border-primary text-primary">
+                            {story.bloodType}
+                          </Badge>
+                          <span className="text-muted-foreground">{story.donations} donations</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-6 relative">
+                      <Quote className="absolute -top-2 -left-1 size-8 text-primary/20" />
+                      <p className="text-muted-foreground pl-6 italic">
+                        {story.quote}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Educational Resources Section */}
+        <section className="py-20 md:py-32 bg-muted/50">
+          <div className="container">
+            <div className="text-center space-y-4 mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Learn About Blood Donation</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Understanding the donation process helps you become a better donor
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              <Card>
+                <CardHeader>
+                  <div className="flex size-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
+                    <BookOpen className="size-6 text-primary" />
+                  </div>
+                  <CardTitle>Eligibility Criteria</CardTitle>
+                  <CardDescription>
+                    You can donate if you are 18-65 years old, weigh at least 45kg, and are in good health. Learn about conditions that may affect eligibility.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild variant="link" className="px-0">
+                    <Link href="/how-to-donate#eligibility">
+                      Check Eligibility <ArrowRight className="ml-1 size-4" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <div className="flex size-12 items-center justify-center rounded-lg bg-accent/10 mb-4">
+                    <Heart className="size-6 text-accent" />
+                  </div>
+                  <CardTitle>Benefits of Donating</CardTitle>
+                  <CardDescription>
+                    Blood donation not only saves lives but also provides health benefits including free health screening and reduced risk of heart disease.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild variant="link" className="px-0">
+                    <Link href="/how-to-donate#benefits">
+                      Learn Benefits <ArrowRight className="ml-1 size-4" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <div className="flex size-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
+                    <Clock className="size-6 text-primary" />
+                  </div>
+                  <CardTitle>Donation Process</CardTitle>
+                  <CardDescription>
+                    The entire process takes only 30-45 minutes. We guide you through registration, health check, donation, and refreshments.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild variant="link" className="px-0">
+                    <Link href="/how-to-donate">
+                      View Process <ArrowRight className="ml-1 size-4" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* Call to Action */}
         <section className="py-20 md:py-32">
           <div className="container">
@@ -248,15 +379,14 @@ export default function Home() {
                   </div>
                 </div>
                 <CardTitle className="text-3xl md:text-5xl font-bold text-balance">
-                  Ready to Make a Difference?
+                  Chennai Needs You
                 </CardTitle>
                 <CardDescription className="text-primary-foreground/90 text-lg max-w-2xl mx-auto">
-                  Join thousands of donors who have already saved lives. Your donation can be the difference between
-                  life and death.
+                  Every 2 seconds, someone in Chennai needs blood. Your single donation can save up to 3 lives. Join thousands of Chennai donors who have already made a difference.
                 </CardDescription>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                   <Button asChild size="lg" variant="secondary" className="text-base">
-                    <Link href="/register/donor">Register Now</Link>
+                    <Link href="/register/donor">Register as Donor</Link>
                   </Button>
                   <Button
                     asChild
@@ -264,7 +394,7 @@ export default function Home() {
                     variant="outline"
                     className="text-base bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10"
                   >
-                    <Link href="/donors">Find Donors</Link>
+                    <Link href="/blood-banks">Find Nearby Blood Banks</Link>
                   </Button>
                 </div>
               </CardHeader>

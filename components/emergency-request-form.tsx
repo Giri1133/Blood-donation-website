@@ -187,14 +187,14 @@ export function EmergencyRequestForm() {
               <Label htmlFor="hospitalName">
                 Hospital Name <span className="text-destructive">*</span>
               </Label>
-              <Input id="hospitalName" name="hospitalName" placeholder="AIIMS Hospital" required />
+              <Input id="hospitalName" name="hospitalName" placeholder="Apollo Hospital, Chennai" required />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="hospitalAddress">
                 Hospital Address <span className="text-destructive">*</span>
               </Label>
-              <Input id="hospitalAddress" name="hospitalAddress" placeholder="123 Medical Center Dr" required />
+              <Input id="hospitalAddress" name="hospitalAddress" placeholder="21, Greams Lane, Off Greams Road" required />
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
@@ -202,14 +202,14 @@ export function EmergencyRequestForm() {
                 <Label htmlFor="city">
                   City <span className="text-destructive">*</span>
                 </Label>
-                <Input id="city" name="city" placeholder="Mumbai" required />
+                <Input id="city" name="city" placeholder="Chennai" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state">
                   State <span className="text-destructive">*</span>
                 </Label>
-                <Input id="state" name="state" placeholder="Maharashtra" required />
+                <Input id="state" name="state" placeholder="Tamil Nadu" required />
               </div>
             </div>
           </div>

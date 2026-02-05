@@ -103,7 +103,7 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="fullName">
                   Full Name <span className="text-destructive">*</span>
                 </Label>
-                <Input id="fullName" name="fullName" placeholder="Rahul Sharma" required />
+                <Input id="fullName" name="fullName" placeholder="Arun Prakash" required />
               </div>
 
               <div className="space-y-2">
@@ -119,7 +119,7 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="phone">
                   Phone Number <span className="text-destructive">*</span>
                 </Label>
-                <Input id="phone" name="phone" type="tel" placeholder="+91 98765 43210" required />
+                <Input id="phone" name="phone" type="tel" placeholder="+91 98410 12345" required />
               </div>
 
               <div className="space-y-2">
@@ -254,7 +254,7 @@ export function DonorRegistrationForm() {
               <Label htmlFor="address">
                 Street Address <span className="text-destructive">*</span>
               </Label>
-              <Input id="address" name="address" placeholder="123 Main St" required />
+              <Input id="address" name="address" placeholder="45, 2nd Main Road, T. Nagar" required />
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
@@ -262,21 +262,21 @@ export function DonorRegistrationForm() {
                 <Label htmlFor="city">
                   City <span className="text-destructive">*</span>
                 </Label>
-                <Input id="city" name="city" placeholder="Mumbai" required />
+                <Input id="city" name="city" placeholder="Chennai" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state">
                   State <span className="text-destructive">*</span>
                 </Label>
-                <Input id="state" name="state" placeholder="Maharashtra" required />
+                <Input id="state" name="state" placeholder="Tamil Nadu" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="pincode">
                   Pincode <span className="text-destructive">*</span>
                 </Label>
-                <Input id="pincode" name="pincode" placeholder="400001" required />
+                <Input id="pincode" name="pincode" placeholder="600017" required />
               </div>
             </div>
           </div>
